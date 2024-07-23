@@ -10,75 +10,75 @@ import javax.swing.JOptionPane;
 public class ProyectoPrograBasica {
 
     public static void main(String[] args) {
-        byte opcion = 0;
+        boolean salir = false;
 
-        String lectura1 = JOptionPane.showInputDialog("Bienvenido al Sistema De Registro del Zoologico UFIDE, cuál es su nombre?");
-        String lectura2 = JOptionPane.showInputDialog(null, " Ingrese  (1)  para Administradores o  (2)  para Operadores ");
+        while (!salir) {
 
-        int adminVisitante = Integer.parseInt(lectura2);
+            InicioSesion enter = new InicioSesion();
+            enter.iniciarSesion();
 
-        if (adminVisitante == 1) {
-            String user = JOptionPane.showInputDialog(null, " Ingresa tu usuario ");
-            String password = JOptionPane.showInputDialog(null, " Ingresa tu contraseña ");
+            boolean sesionActiva = true;
 
-            if (user.equals("Admin") && password.equals("159753")) {
-                JOptionPane.showMessageDialog(null, " Bienvenido al sistema " + lectura1 + "!");
-                opcion = Byte.parseByte(JOptionPane.showInputDialog(null,
+            while (sesionActiva) {
+                byte opcion = Byte.parseByte(JOptionPane.showInputDialog(null,
                         "1.Registro de animales\n2.Registro de habitats\n3.Registro de eventos\n4.Registro de visitantes\n5.Gestión de alimentación\n6.Mapa del zoologico"
                         + "\n7. Para Salir del programa " + "\n\nDigite el número de la opcion que desea ver:"));
-            } else {
-                JOptionPane.showMessageDialog(null, " Usuario y contraseña incorrectas, intentalo de nuevo ");
-            }
-        } else if (adminVisitante == 2) {
-            String user = JOptionPane.showInputDialog(null, " Ingresa tu usuario ");
-            String password = JOptionPane.showInputDialog(null, " Ingresa tu contraseña ");
 
-            if (user.equals("Jimi123") && password.equals("1234") || user.equals("David123") && password.equals("4567") || user.equals("Gabi123") && password.equals("7891") || user.equals("Andres8521") && password.equals("9632")) {
-                JOptionPane.showMessageDialog(null, " Bienvenido al sistema " + lectura1 + "!");
-                opcion = Byte.parseByte(JOptionPane.showInputDialog(null,
-                        "1.Registro de animales\n2.Registro de habitats\n3.Registro de eventos\n4.Registro de visitantes\n5.Gestión de alimentación\n6.Mapa del zoologico"
-                        + "\n7. Para Salir del programa " + "\n\nDigite el número de la opcion que desea ver:"));
-            } else {
-                JOptionPane.showMessageDialog(null, " Usuario y contraseña incorrectas ");
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, " La opcion ingresada es invalida, ingresa una opcion valida ");
-        }
+                switch (opcion) {
+                    case 1:
+                        JOptionPane.showMessageDialog(null, "Ingresaste a Registro de animales");
 
-        switch (opcion) {
-            case 1:
-                JOptionPane.showMessageDialog(null, " Ingresaste a Registro de animales ");
-                RegistroAnimales arrAnimales[] = new RegistroAnimales[2];
-                RegistroAnimales.pideinfo(arrAnimales);
-                RegistroAnimales.muestrainfo(arrAnimales);
-                break;
-            case 2:
-                JOptionPane.showMessageDialog(null, "Ingresaste a Registro de habitats");
-                RegistroHabitats arrHabitats[] = new RegistroHabitats[2];
-                RegistroHabitats.pideinfo(arrHabitats);
-                RegistroHabitats.muestrainfo(arrHabitats);
-                break;
-                
-            case 3:
-                JOptionPane.showMessageDialog(null, " Ingresaste a Registro de eventos ");
-                RegistroEventos arrEventos[] = new RegistroEventos[2];
-                RegistroEventos.pideinfo(arrEventos);
-                RegistroEventos.muestrainfo(arrEventos);
-                break;     
-            case 4:
-                JOptionPane.showMessageDialog(null, " Ingresaste a Registro de visitantes ");
-                break;
-            case 5:
-                JOptionPane.showMessageDialog(null, " Ingreaste a Registro de gestion de alimentacion ");
-                break;
-            case 6:
-                JOptionPane.showMessageDialog(null, " Ingresaste a Mapa del zoologico ");
-                break;
-            case 7:
-                JOptionPane.showMessageDialog(null, " Saliendo del sistema...");
-                break;
-            default:
-                JOptionPane.showMessageDialog(null, " La opcion ingresada es invalida, ingresa una opcion valida");
+                        if (enter.getTipoUsuario() == 1) {
+                            RegistroAnimales[] arrAnimales = new RegistroAnimales[2];
+                            RegistroAnimales.pideinfo(arrAnimales);
+                            RegistroAnimales.muestrainfo(arrAnimales);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Solo Admins pueden modificar data");
+                            continue;
+                        }
+
+                    case 2:
+                        JOptionPane.showMessageDialog(null, "Ingresaste a Registro de habitats");
+                        RegistroHabitats[] arrHabitats = new RegistroHabitats[2];
+                        RegistroHabitats.pideinfo(arrHabitats);
+                        RegistroHabitats.muestrainfo(arrHabitats);
+                        break;
+
+                    case 3:
+                        JOptionPane.showMessageDialog(null, "Ingresaste a Registro de eventos");
+                        RegistroEventos[] arrEventos = new RegistroEventos[1];
+                        RegistroEventos.pideinfo(arrEventos);
+                        RegistroEventos.muestrainfo(arrEventos);
+                        break;
+
+                    case 4:
+                        JOptionPane.showMessageDialog(null, "Ingresaste a Registro de visitantes");
+                        break;
+
+                    case 5:
+                        JOptionPane.showMessageDialog(null, "Ingresaste a Registro de gestion de alimentacion");
+                        break;
+
+                    case 6:
+                        JOptionPane.showMessageDialog(null, "Ingresaste a Mapa del zoologico");
+                        break;
+
+                    case 7:
+                        if (enter.getTipoUsuario() == 1) {
+                            JOptionPane.showMessageDialog(null, " Cerrando sesion. Vuelve a iniciar sesión ");
+                            sesionActiva = false;
+                        } else {
+                            sesionActiva = false;
+                            salir = true;
+                            JOptionPane.showMessageDialog(null, "Saliendo del programa.");
+                        }
+                        break;
+
+                    default:
+                        JOptionPane.showMessageDialog(null, "Opción no válida. Intente nuevamente.");
+                        break;
+                }
+            }
         }
     }
 }
