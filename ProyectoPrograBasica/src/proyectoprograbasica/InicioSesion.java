@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Armando_Hernandez_Mo
+ * @author David Hernandez
  */
 public class InicioSesion {
 
